@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import Card from './Card';
 import Model from './Model';
+import Chart from './Chart';
 
 function Dashboard() {
     const [balance, setBalance] = useState(() => {
@@ -69,6 +70,25 @@ function Dashboard() {
             margin: "10px"}}>
             <Card balance={balance} type="Income" onAddIncome={() => setIsIncomeFormVisible(true)}/>
             <Card balance={spendAmount} type="Expenses" onAddIncome={() => setIsExpenseFormVisible(true)}/>
+            <div>
+                <Chart />
+                <div style={{ display: "flex", justifyContent: "center", gap: "10px", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: "26px", height: "8px", backgroundColor: "#A000FF" }}></div>
+            <span style={{ color: "white" }}>Food</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: "26px", height: "8px", backgroundColor: "#FF9304" }}></div>
+            <span style={{ color: "white" }}>Entertainment</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: "26px", height: "8px", backgroundColor: "#FDE006" }}></div>
+            <span style={{ color: "white" }}>Travel</span>
+          </div>
+        </div>
+
+            </div>
+            
         </div>
         <Model
                 isIncomeFormVisible={isIncomeFormVisible}

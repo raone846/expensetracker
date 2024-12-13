@@ -26,24 +26,29 @@ function Model({
                 overlayClassName="modal-overlay"
             >
                 <h2>Add Income</h2>
-                <form onSubmit={handleIncomeFormSubmit} className="modal-form">
+                <form onSubmit={handleIncomeFormSubmit} className="modal-form" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                     <input
                         type="text"
                         placeholder="Income Amount"
                         value={newIncome}
                         onChange={(e) => setNewIncome(e.target.value)}
                         required
+                        style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                     />
-                    <div className="modal-buttons">
-                        <button type="submit">Add Income</button>
+                    <div className="modal-buttons" style={{ display: "flex", gap: "10px" }}>
+                        <button type="submit" style={{ backgroundColor: "#F4BB4A", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px" }}>
+                            Add Income
+                        </button>
                         <button
                             type="button"
                             onClick={() => setIsIncomeFormVisible(false)}
+                            style={{ backgroundColor: "#D9D9D9", padding: "8px 12px", border: "none", borderRadius: "4px" }}
                         >
                             Cancel
                         </button>
                     </div>
                 </form>
+
             </Modal>
 
             {/* Expense Modal */}
@@ -88,10 +93,11 @@ function Model({
                         />
                     </div>
                     <div className="modal-buttons">
-                        <button type="submit" style={{ backgroundColor: "#F4BB4A" }}>Add Expense</button>
+                        <button type="submit" style={{ backgroundColor: "#F4BB4A", color:"white" }}>Add Expense</button>
                         <button
                             type="button"
                             onClick={() => setIsExpenseFormVisible(false)}
+                            style={{backgroundColor:"#D9D9D9"}}
                         >
                             Cancel
                         </button>

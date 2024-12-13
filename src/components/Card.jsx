@@ -13,8 +13,7 @@ function Card({ balance, type, onAddIncome }) {
         alignItems:"center"}}>
         <h2 style={{ fontWeight: "normal" }}>
             {type === 'Income' ? 'Wallet Balance' : type}: 
-            <span style={{ color: type === 'Income' ? '#9DFF5B' : '#F4BB4A' }}>
-            {" "+ balance}
+            <span style={{ color: type === 'Income' ? '#9DFF5B' : '#F4BB4A' }}>{" ₹"+balance}
             </span>
         </h2>
         <button
