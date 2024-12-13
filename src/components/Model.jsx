@@ -15,6 +15,8 @@ function Model({
     expenseDetails,
     setExpenseDetails,
     handleExpenseFormSubmit,
+    editExpense,  // Add editExpense prop to handle editing functionality
+    setEditExpense // Add setEditExpense prop to reset editExpense after submission
 }) {
     return (
         <div>
@@ -48,7 +50,6 @@ function Model({
                         </button>
                     </div>
                 </form>
-
             </Modal>
 
             {/* Expense Modal */}
@@ -58,7 +59,7 @@ function Model({
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
-                <h2 style={{ textAlign: 'left' }}>Add Expenses</h2>
+                <h2 style={{ textAlign: 'left' }}>{editExpense ? 'Edit Expense' : 'Add Expense'}</h2>
                 <form onSubmit={handleExpenseFormSubmit} className="modal-form" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
                     <div style={{ display: "flex", gap: "10px", width: "100%", justifyContent: "space-between" }}>
                         <input
@@ -92,24 +93,28 @@ function Model({
                         </select>
                         <input
                             type="date"
+                            value={expenseDetails.date}
+                            onChange={(e) => setExpenseDetails({ ...expenseDetails, date: e.target.value })}
                             required
                             style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                         />
                     </div>
                     <div className="modal-buttons" style={{ display: "flex", justifyContent: "left", gap: "10px", width: "100%" }}>
                         <button type="submit" style={{ backgroundColor: "#F4BB4A", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px" }}>
-                            Add Expense
+                            {editExpense ? 'Save Changes' : 'Add Expense'}
                         </button>
                         <button
                             type="button"
-                            onClick={() => setIsExpenseFormVisible(false)}
+                            onClick={() => {
+                                setIsExpenseFormVisible(false);
+                                setEditExpense(null); // Reset the editExpense state after closing
+                            }}
                             style={{ backgroundColor: "#D9D9D9", padding: "8px 12px", border: "none", borderRadius: "4px" }}
                         >
                             Cancel
                         </button>
                     </div>
                 </form>
-
             </Modal>
         </div>
     );

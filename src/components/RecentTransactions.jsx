@@ -1,14 +1,14 @@
 import React from 'react';
 
-function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount }) {
+function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount, openModal, setEditExpense }) {
   const handleDelete = (expenseToDelete) => {
     // Remove the expense from the list
     const updatedExpenses = expenses.filter(expense => expense !== expenseToDelete);
 
-    // Update the localStorage and state
+    // Update the state for expenses, balance, and spendAmount
     setExpenses(updatedExpenses);
-    setBalance((prevBalance) => prevBalance + expenseToDelete.price);  // Add back to balance (income)
-    setSpendAmount((prevSpendAmount) => prevSpendAmount - expenseToDelete.price);  // Subtract from spend amount
+    setBalance((prevBalance) => prevBalance + expenseToDelete.price); // Add back to balance (income)
+    setSpendAmount((prevSpendAmount) => prevSpendAmount - expenseToDelete.price); // Subtract from spend amount
 
     // Update the expenses in localStorage
     localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
@@ -17,43 +17,37 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount 
   };
 
   const handleEdit = (expenseToEdit) => {
-    // For now, we'll just log the expense to edit
-    console.log('Editing expense:', expenseToEdit);
-    // You can implement the logic to open an edit form here
+    // Open the modal and set the expense to be edited
+    setEditExpense(expenseToEdit);  // Set the expense being edited
+    openModal(true);  // Open the modal to edit
   };
 
   return (
-    <div>
-      <h3>Recent Transactions</h3>
-      <table style={{ width: '100%', color: 'white' }}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.length > 0 ? (
-            expenses.map((expense, index) => (
-              <tr key={index}>
-                <td>{expense.title}</td>
-                <td>{expense.price}</td>
-                <td>{expense.category}</td>
-                <td>
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
-                  <button onClick={() => handleDelete(expense)}>Delete</button>
-                </td>
+    <div style={{ color: "white", width: "100%", margin: "10px" }}>
+      <h2>Recent Transactions</h2>
+      <div style={{ backgroundColor: "white", color: "black", borderRadius: "10px" }}>
+        <table style={{ width: '100%', tableLayout: 'auto' }}>
+          <tbody>
+            {expenses.length > 0 ? (
+              expenses.map((expense, index) => (
+                <tr key={index}>
+                  <td style={{ width: '25%' }}>{expense.title}</td>
+                  <td style={{ width: '25%' }}>{expense.category}</td>
+                  <td style={{ width: '25%' }}>{expense.price}</td>
+                  <td>
+                    <button onClick={() => handleDelete(expense)}>Delete</button>
+                    <button onClick={() => handleEdit(expense)}>Edit</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">No transactions found.</td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No recent transactions.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
