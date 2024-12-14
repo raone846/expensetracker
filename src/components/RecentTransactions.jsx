@@ -120,8 +120,10 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
                             backgroundColor: "#e74c3c",
                             color: "white",
                             border: "none",
+                            width: "30px", 
+                            height: "30px",
                             padding: "5px 10px",
-                            borderRadius: "3px",
+                            borderRadius: "50%",
                             cursor: "pointer",
                           }}
                           onClick={() => handleDelete(expense)}
@@ -133,8 +135,10 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
                             backgroundColor: "#F4BB4A",
                             color: "white",
                             border: "none",
+                            width: "30px", 
+                            height: "30px",
                             padding: "5px 10px",
-                            borderRadius: "3px",
+                            borderRadius: "50%",
                             cursor: "pointer",
                           }}
                           onClick={() => handleEdit(expense)}

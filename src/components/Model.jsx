@@ -18,6 +18,14 @@ function Model({
     editExpense,  // Add editExpense prop to handle editing functionality
     setEditExpense // Add setEditExpense prop to reset editExpense after submission
 }) {
+    const handleExpenseChange = (field, value) => {
+        // Make sure price is treated as a number
+        if (field === 'price') {
+            value = parseFloat(value) || 0; // Convert to number, default to 0 if invalid
+        }
+        setExpenseDetails({ ...expenseDetails, [field]: value });
+    };
+
     return (
         <div>
             {/* Income Modal */}
@@ -65,24 +73,24 @@ function Model({
                         <input
                             type="text"
                             placeholder="Title"
-                            value={expenseDetails.title}
-                            onChange={(e) => setExpenseDetails({ ...expenseDetails, title: e.target.value })}
+                            value={editExpense ? editExpense.title : expenseDetails.title}
+                            onChange={(e) => handleExpenseChange('title', e.target.value)}
                             required
                             style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                         />
                         <input
                             type="text"
                             placeholder="Price"
-                            value={expenseDetails.price}
-                            onChange={(e) => setExpenseDetails({ ...expenseDetails, price: e.target.value })}
+                            value={editExpense ? editExpense.price : expenseDetails.price}
+                            onChange={(e) => handleExpenseChange('price', e.target.value)}
                             required
                             style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                         />
                     </div>
                     <div style={{ display: "flex", gap: "10px", width: "100%", justifyContent: "space-between" }}>
                         <select
-                            value={expenseDetails.category}
-                            onChange={(e) => setExpenseDetails({ ...expenseDetails, category: e.target.value })}
+                            value={editExpense ? editExpense.category : expenseDetails.category}
+                            onChange={(e) => handleExpenseChange('category', e.target.value)}
                             required
                             style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                         >
@@ -93,8 +101,8 @@ function Model({
                         </select>
                         <input
                             type="date"
-                            value={expenseDetails.date}
-                            onChange={(e) => setExpenseDetails({ ...expenseDetails, date: e.target.value })}
+                            value={editExpense ? editExpense.date : expenseDetails.date}
+                            onChange={(e) => handleExpenseChange('date', e.target.value)}
                             required
                             style={{ flex: "1", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
                         />

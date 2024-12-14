@@ -5,12 +5,15 @@ import Chart from './Chart';
 
 function Dashboard({
   expenses,
-  balance,
-  spendAmount,
   setExpenses,
-  setBalance,
+  spendAmount,
   setSpendAmount
 }) {
+  const [balance, setBalance] = useState(() => {
+    const storedBalance = localStorage.getItem('balance');
+    return storedBalance ? parseFloat(storedBalance) : 5000; // Default to 5000 if not available
+  });
+
   const [isIncomeFormVisible, setIsIncomeFormVisible] = useState(false);
   const [isExpenseFormVisible, setIsExpenseFormVisible] = useState(false);
   const [newIncome, setNewIncome] = useState('');
@@ -20,12 +23,12 @@ function Dashboard({
     category: '',
   });
 
-  // Sync state with localStorage
+  // Sync state with localStorage whenever balance, spendAmount, or expenses change
   useEffect(() => {
-    localStorage.setItem('balance', balance);
-    localStorage.setItem('spendAmount', spendAmount);
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [balance, spendAmount, expenses]);
+    localStorage.setItem('balance', balance); // Save balance to localStorage
+    localStorage.setItem('spendAmount', spendAmount); // Save spendAmount to localStorage
+    localStorage.setItem('expenses', JSON.stringify(expenses)); // Save expenses to localStorage
+  }, [balance, spendAmount, expenses]); // Depend on balance, spendAmount, expenses
 
   const aggregateExpensesByCategory = () => {
     const aggregatedData = expenses.reduce((acc, expense) => {
@@ -49,9 +52,9 @@ function Dashboard({
     const income = parseFloat(newIncome);
     if (!isNaN(income) && income > 0) {
       const updatedBalance = balance + income;
-      setBalance(updatedBalance);
-      setNewIncome('');
-      setIsIncomeFormVisible(false);
+      setBalance(updatedBalance); // Update balance
+      setNewIncome(''); // Reset income input field
+      setIsIncomeFormVisible(false); // Close income modal
     }
   };
 
@@ -59,17 +62,29 @@ function Dashboard({
     e.preventDefault();
     const expense = {
       ...expenseDetails,
+      id: Date.now(), // Generate a unique ID for each expense
       price: parseFloat(expenseDetails.price),
     };
-
+  
     if (!isNaN(expense.price) && expense.price > 0) {
-      const updatedSpendAmount = spendAmount + expense.price;
-      const updatedBalance = balance - expense.price;
-
+      const updatedSpendAmount = spendAmount + expense.price; // Calculate new spendAmount
+      const updatedBalance = balance - expense.price; // Calculate new balance
+  
       if (updatedBalance >= 0) {
+        // Update localStorage directly before state updates
+        localStorage.setItem('balance', updatedBalance);
+        localStorage.setItem('spendAmount', updatedSpendAmount);
+  
+        // Update expenses in localStorage immediately
+        const updatedExpenses = [...expenses, expense];
+        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
+  
+        // Update React state
         setSpendAmount(updatedSpendAmount);
         setBalance(updatedBalance);
-        setExpenses([...expenses, expense]); // Update global state
+        setExpenses(updatedExpenses);
+  
+        // Reset expense details and close modal
         setExpenseDetails({ title: '', price: '', category: '' });
         setIsExpenseFormVisible(false);
       } else {
@@ -77,20 +92,23 @@ function Dashboard({
       }
     }
   };
+  
+  
+  
 
   return (
     <div style={{ color: "white", width: "100%", margin: "10px" }}>
       <h2>Expense Tracker</h2>
       <div style={{
-          backgroundColor: "#626262",
-          width: "97%",
-          height: "300px",
-          borderRadius: "10px",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          margin: "10px"
+        backgroundColor: "#626262",
+        width: "97%",
+        height: "300px",
+        borderRadius: "10px",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        margin: "10px"
       }}>
         <Card balance={balance} type="Income" onAddIncome={() => setIsIncomeFormVisible(true)} />
         <Card balance={spendAmount} type="Expenses" onAddIncome={() => setIsExpenseFormVisible(true)} />
