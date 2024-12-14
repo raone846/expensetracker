@@ -102,7 +102,7 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
                       <small style={{ color: "gray" }}>{formatDate(expense.date)}</small>
                     </div>
                   </td>
-                  <td style={{ width: "30%", textAlign: "right", padding: "10px" }}>
+                  <td style={{ width: "10%", textAlign: "right", padding: "10px" }}>
                     <div
                       style={{
                         display: "flex",
@@ -113,11 +113,14 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
                       }}
                     >
                       <strong>₹{expense.price.toFixed(2)}</strong>
-                      <div>
+                      <div style={{display:"flex"}}>
                         <button
                           style={{
                             marginRight: "5px",
                             backgroundColor: "#e74c3c",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             color: "white",
                             border: "none",
                             width: "30px", 
@@ -133,6 +136,9 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
                         <button
                           style={{
                             backgroundColor: "#F4BB4A",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             color: "white",
                             border: "none",
                             width: "30px", 
@@ -180,8 +186,13 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
           style={{
             padding: "5px 10px",
             backgroundColor: "#F1F1F1",
+            display: "flex", 
+            justifyContent: "center",
+            alignItems: "center",
             color: "black",
             border: "none",
+            width: "30px", 
+            height: "30px",
             borderRadius: "50%",
             cursor: currentPage === 1 ? "not-allowed" : "pointer",
           }}
@@ -210,6 +221,11 @@ function RecentTransactions({ expenses, setExpenses, setBalance, setSpendAmount,
             backgroundColor: "#F1F1F1",
             color: "black",
             border: "none",
+            width: "30px", 
+            height: "30px",
+            display: "flex", 
+            justifyContent: "center",
+            alignItems: "center",
             borderRadius: "50%",
             cursor: currentPage === totalPages ? "not-allowed" : "pointer",
           }}
